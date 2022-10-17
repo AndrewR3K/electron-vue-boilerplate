@@ -3,6 +3,7 @@ import {join} from 'path';
 import {execFile} from 'child_process'
 import { autoUpdater } from "electron-updater"
 import log from 'electron-log'
+import installExtension from 'electron-devtools-installer';
 
 autoUpdater.logger = log;
 
@@ -69,6 +70,20 @@ function createWindow () {
 }
 
 app.whenReady().then(() => {
+  createWindow();
+  app.on('activate', function () {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
+});
+
+app.whenReady().then(() => {
+  installExtension('nhdogjmejiglipccpnnnanhbledajbpd') //This id is the ID of the devtool extension (https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en)
+  .then((name) => console.log(`Added Extension:  ${name}`))
+  .catch((err) => console.log('An error occurred: ', err));
   createWindow();
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
